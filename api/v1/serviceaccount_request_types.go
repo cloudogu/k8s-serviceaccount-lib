@@ -27,6 +27,18 @@ const (
 	ComponentConsumerType ServiceAccountRequestConsumerType = "Component"
 )
 
+const (
+	ConditionTypeProducerReady                   = "ProducerReady"
+	ConditionReasonProducerReadyProducerFound    = "ProducerFound"    // producer found
+	ConditionReasonProducerReadyProducerNotFound = "ProducerNotFound" // producer not found
+	ConditionReasonProducerReadyProducerNotReady = "ProducerNotReady" // producer is found but not ready
+	ConditionTypeProducer                        = "Accepted"
+	ConditionReasonAcceptedValidationSuccess     = "ValidationSuccess"
+	ConditionReasonAcceptedInvalidParameters     = "InvalidParameters"
+	ConditionReasonReadyServiceAccountCreated    = "ServiceAccountCreated"
+	ConditionReasonReadyServiceAccountFailed     = "ServiceAccountFailed" // error during http call or exec
+)
+
 // LocalSecretRef definiert eine Referenz auf ein Secret im selben Namespace.
 type LocalSecretRef struct {
 	// Name des Secrets.
@@ -131,7 +143,7 @@ type ServiceAccountRequestStatus struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:shortName=sare
 // +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="Optional",type="bool",JSONPath=".spec.optional",description="Optional nature of the resource"
+// +kubebuilder:printcolumn:name="Optional",type="boolean",JSONPath=".spec.optional",description="Optional nature of the resource"
 // +kubebuilder:printcolumn:name="Consumer",type="string",JSONPath=".spec.consumer"
 // +kubebuilder:printcolumn:name="ConsumerType",type="string",JSONPath=".spec.consumerType",description="Type of the requester"
 // +kubebuilder:printcolumn:name="Producer",type="string",JSONPath=".spec.producer",description="Producer of the requester"
