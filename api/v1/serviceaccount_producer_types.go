@@ -32,14 +32,19 @@ type HTTPProducer struct {
 	// +kubebuilder:validation:Format=uri
 	// +kubebuilder:example="https://nexus:8081/api/cloudogu/service-account"
 	Endpoint string `json:"endpoint"`
-
 	// AuthSecret describes the reference of the secret that should be used to create the service account.
 	// +required
 	AuthSecret ServiceAccountProducerAuthSecret `json:"authSecret"`
-
 	// Priority describes the priority of choosing a way to create the service account if multiple producers (e.g. http and exec) a configured.
 	// +optional
 	Priority int `json:"priority,omitzero"`
+	// Params defines the parameters that should and can be used to create the service account.
+	// +optional
+	Params *ProducerParams `json:"params,omitempty"`
+	// Return defines the structure of the return values from the producer.
+	// It is used to write the actual service account data to the secret.
+	// +required
+	Return map[AttributeName]ProducerReturnDefinition `json:"return,omitempty"`
 }
 
 // ExecProducer defines necessary information to create a service account via k8s exec api.
@@ -54,6 +59,13 @@ type ExecProducer struct {
 	// Priority describes the priority of choosing a way to create the service account if multiple producers a configured.
 	// +optional
 	Priority int `json:"priority,omitzero"`
+	// Params defines the parameters that should and can be used to create the service account.
+	// +optional
+	Params *ProducerParams `json:"params,omitempty"`
+	// Return defines the structure of the return values from the producer.
+	// It is used to write the actual service account data to the secret.
+	// +required
+	Return map[AttributeName]ProducerReturnDefinition `json:"return,omitempty"`
 }
 
 // AttributeDefinition defines the structure of an attribute used to create service accounts.
@@ -121,13 +133,6 @@ type ServiceAccountProducerSpec struct {
 	// Exec defines the necessary information to create a service account via k8s exec api.
 	// +optional
 	Exec *ExecProducer `json:"exec,omitempty"`
-	// Params defines the parameters that should and can be used to create the service account.
-	// +optional
-	Params *ProducerParams `json:"params,omitempty"`
-	// Return defines the structure of the return values from the producer.
-	// It is used to write the actual service account data to the secret.
-	// +required
-	Return map[AttributeName]ProducerReturnDefinition `json:"return,omitempty"`
 }
 
 // ServiceAccountProducerStatus defines the observed state of ServiceAccountProducer.
