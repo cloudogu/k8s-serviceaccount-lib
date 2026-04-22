@@ -2,7 +2,7 @@
 PROJECT_NAME=k8s-serviceaccount-lib
 ARTIFACT_ID=k8s-serviceaccount-crd
 APPEND_CRD_SUFFIX=false
-VERSION=0.1.0
+VERSION=1.0.0
 
 MAKEFILES_VERSION=10.8.0
 
