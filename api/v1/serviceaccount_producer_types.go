@@ -100,10 +100,6 @@ type ProducerReturnDefinition struct {
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
 	Description string `json:"description"`
-	// +required
-	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:validation:MaxLength=253
-	Type string `json:"type"`
 }
 
 // AttributeName defines the name of an attribute.
