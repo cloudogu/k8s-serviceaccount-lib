@@ -13,7 +13,6 @@ const (
 
 // ServiceAccountProducerAuthSecret defines the reference of the secret that should be used to create the service account.
 type ServiceAccountProducerAuthSecret struct {
-	// +required
 	LocalSecretRef `json:",inline"`
 	// +required
 	// +kubebuilder:validation:MinLength=1
