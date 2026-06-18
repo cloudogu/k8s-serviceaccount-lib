@@ -32,19 +32,6 @@ type LocalSecretRef struct {
 	Name string `json:"name"`
 }
 
-// ServiceAccountRequestParams defines the param structure for the service account creation with unordered options as a mapping from map string to a slice from strings.
-// We do not use just string to string because some parameters maybe require multiple values of the same parameter/option (e.g. --repo x --repo y --permissions read).
-// Although some parameters are unnamed and positional, so we need the additional args field for this. It defines positional arguments without names.
-type ServiceAccountRequestParams struct {
-	// +kubebuilder:validation:MaxProperties=20
-	// +optional
-	Options map[string][]string `json:"options,omitempty"`
-
-	// +kubebuilder:validation:MaxItems=50
-	// +optional
-	Args []string `json:"args,omitempty"`
-}
-
 // ServiceAccountRotation defines a plan for recreating the service account credentials. If ServiceAccountRotation.Enabled is false, nothing will happen.
 // If ServiceAccountRotation.Enabled and a cron expression is set with ServiceAccountRotation.Rotation the account will be recreated defined with ServiceAccountRotation.Rotation.
 // +kubebuilder:validation:XValidation:rule="self.enabled == true ? self.rotation.size() > 0 : true",message="rotation must be set if enabled is true"
@@ -96,8 +83,9 @@ type ServiceAccountRequestSpec struct {
 	SecretRef *LocalSecretRef `json:"secretRef,omitempty"`
 
 	// Params defines the parameter which should be used when creating the service account.
+	// +kubebuilder:validation:MaxItems=50
 	// +optional
-	Params *ServiceAccountRequestParams `json:"params,omitempty"`
+	Params []string `json:"params,omitempty"`
 
 	// Rotation defines timings when the service account should be recreated.
 	// +optional
