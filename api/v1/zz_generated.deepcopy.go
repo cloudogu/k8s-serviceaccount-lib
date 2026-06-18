@@ -338,8 +338,10 @@ func (in *ServiceAccountRequestSpec) DeepCopyInto(out *ServiceAccountRequestSpec
 	}
 	if in.Params != nil {
 		in, out := &in.Params, &out.Params
-		*out = make([]string, len(*in))
-		copy(*out, *in)
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 	if in.Rotation != nil {
 		in, out := &in.Rotation, &out.Rotation

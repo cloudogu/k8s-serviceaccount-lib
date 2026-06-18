@@ -83,9 +83,9 @@ type ServiceAccountRequestSpec struct {
 	SecretRef *LocalSecretRef `json:"secretRef,omitempty"`
 
 	// Params defines the parameter which should be used when creating the service account.
-	// +kubebuilder:validation:MaxItems=50
+	// +kubebuilder:validation:MaxProperties=20
 	// +optional
-	Params []string `json:"params,omitempty"`
+	Params map[string]string `json:"params,omitempty"`
 
 	// Rotation defines timings when the service account should be recreated.
 	// +optional
