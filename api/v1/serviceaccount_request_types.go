@@ -12,14 +12,11 @@ const (
 )
 
 const (
-	ConditionTypeProducerReady                          = "ProducerReady"
-	ConditionReasonProducerReadyProducerFound           = "ProducerFound"    // producer found
-	ConditionReasonProducerReadyProducerNotFound        = "ProducerNotFound" // producer not found
-	ConditionReasonProducerReadyProducerNotReady        = "ProducerNotReady" // producer is found but not ready
 	ConditionTypeServiceAccountReady                    = "ServiceAccountReady"
 	ConditionReasonServiceAccountReadyCreated           = "ServiceAccountCreated" // the service-account is created
 	ConditionReasonServiceAccountReadyFailed            = "ServiceAccountFailed"  // error during http call or exec
 	ConditionReasonServiceAccountReadyInvalidParameters = "InvalidParameters"     // spec validation failed
+	ConditionReasonServiceAccountReadyProducerNotFound  = "ProducerNotFound"      // optional producer not yet available
 )
 
 // LocalSecretRef definiert eine Referenz auf ein Secret im selben Namespace.
