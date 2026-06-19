@@ -13,7 +13,7 @@ const (
 
 const (
 	ConditionTypeServiceAccountReady                    = "ServiceAccountReady"
-	ConditionReasonServiceAccountReadyCreated           = "ServiceAccountCreated" // the service-account is created
+	ConditionReasonServiceAccountReadyCreated           = "ServiceAccountCreated"
 	ConditionReasonServiceAccountReadyFailed            = "ServiceAccountFailed"  // error during http call or exec
 	ConditionReasonServiceAccountReadyInvalidParameters = "InvalidParameters"     // spec validation failed
 	ConditionReasonServiceAccountReadyProducerNotFound  = "ProducerNotFound"      // optional producer not yet available
@@ -79,7 +79,13 @@ type ServiceAccountRequestSpec struct {
 	// +optional
 	SecretRef *LocalSecretRef `json:"secretRef,omitempty"`
 
-	// Params defines the parameter which should be used when creating the service account.
+	// Params defines a map of parameters provided (via service account operator) to the service account producer to 
+	// modify their service account creation behavior (if supported).
+	//
+	// The number and quality of parameters highly depend on the implementation of the service account producer. 
+	// 
+	// With maps being unsorted, the service account operator may provide a parameter sorting by a derived logic that is
+	// not being discussed here.
 	// +kubebuilder:validation:MaxProperties=20
 	// +optional
 	Params map[string]string `json:"params,omitempty"`
