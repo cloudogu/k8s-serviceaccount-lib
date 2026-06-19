@@ -51,9 +51,9 @@ generate-client: ${CLIENT_GEN} ## Generate client code from API definitions.
 	@echo "Generating client..."
 	@$(CLIENT_GEN) -v 5 \
 		--output-dir "./" \
-		--output-pkg "github.com/cloudogu/${PROJECT_NAME}" \
+		--output-pkg "github.com/cloudogu/${PROJECT_NAME}/v2" \
 		--clientset-name "client" \
-		--input "api/v1" \
+		--input "api/v2" \
 		--input-base "${CURDIR}"
 
 .PHONY: generate-crd-api
