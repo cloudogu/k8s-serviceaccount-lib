@@ -3,26 +3,26 @@
 package fake
 
 import (
-	v1 "github.com/cloudogu/k8s-serviceaccount-lib/client/typed/api/v1"
+	v2 "github.com/cloudogu/k8s-serviceaccount-lib/v2/client/typed/api/v2"
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
 )
 
-type FakeApiV1 struct {
+type FakeApiV2 struct {
 	*testing.Fake
 }
 
-func (c *FakeApiV1) ServiceAccountProducers(namespace string) v1.ServiceAccountProducerInterface {
+func (c *FakeApiV2) ServiceAccountProducers(namespace string) v2.ServiceAccountProducerInterface {
 	return newFakeServiceAccountProducers(c, namespace)
 }
 
-func (c *FakeApiV1) ServiceAccountRequests(namespace string) v1.ServiceAccountRequestInterface {
+func (c *FakeApiV2) ServiceAccountRequests(namespace string) v2.ServiceAccountRequestInterface {
 	return newFakeServiceAccountRequests(c, namespace)
 }
 
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
-func (c *FakeApiV1) RESTClient() rest.Interface {
+func (c *FakeApiV2) RESTClient() rest.Interface {
 	var ret *rest.RESTClient
 	return ret
 }

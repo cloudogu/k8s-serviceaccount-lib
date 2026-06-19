@@ -3,9 +3,9 @@
 package fake
 
 import (
-	clientset "github.com/cloudogu/k8s-serviceaccount-lib/client"
-	apiv1 "github.com/cloudogu/k8s-serviceaccount-lib/client/typed/api/v1"
-	fakeapiv1 "github.com/cloudogu/k8s-serviceaccount-lib/client/typed/api/v1/fake"
+	clientset "github.com/cloudogu/k8s-serviceaccount-lib/v2/client"
+	apiv2 "github.com/cloudogu/k8s-serviceaccount-lib/v2/client/typed/api/v2"
+	fakeapiv2 "github.com/cloudogu/k8s-serviceaccount-lib/v2/client/typed/api/v2/fake"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
@@ -79,7 +79,7 @@ var (
 	_ testing.FakeClient  = &Clientset{}
 )
 
-// ApiV1 retrieves the ApiV1Client
-func (c *Clientset) ApiV1() apiv1.ApiV1Interface {
-	return &fakeapiv1.FakeApiV1{Fake: &c.Fake}
+// ApiV2 retrieves the ApiV2Client
+func (c *Clientset) ApiV2() apiv2.ApiV2Interface {
+	return &fakeapiv2.FakeApiV2{Fake: &c.Fake}
 }
