@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.0] - 2026-06-19
+
+### Changed
+- [#3] Improve status conditions for ServiceAccountRequests
+- [#3] Simplify serviceaccount-request params to just a map of strings
+  - When creating service accounts, the params are passed to the serviceaccount-producer via the serviceaccount operator
+
 ## [v1.0.0] - 2026-04-22
 ### Added
 - [#1] Initial CRDs for ServiceAccountRequest and ServiceAccountProducer

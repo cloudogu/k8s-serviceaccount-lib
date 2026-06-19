@@ -12,15 +12,11 @@ const (
 )
 
 const (
-	ConditionTypeProducerReady                   = "ProducerReady"
-	ConditionReasonProducerReadyProducerFound    = "ProducerFound"    // producer found
-	ConditionReasonProducerReadyProducerNotFound = "ProducerNotFound" // producer not found
-	ConditionReasonProducerReadyProducerNotReady = "ProducerNotReady" // producer is found but not ready
-	ConditionTypeProducer                        = "Accepted"
-	ConditionReasonAcceptedValidationSuccess     = "ValidationSuccess"
-	ConditionReasonAcceptedInvalidParameters     = "InvalidParameters"
-	ConditionReasonReadyServiceAccountCreated    = "ServiceAccountCreated"
-	ConditionReasonReadyServiceAccountFailed     = "ServiceAccountFailed" // error during http call or exec
+	ConditionTypeServiceAccountReady                    = "ServiceAccountReady"
+	ConditionReasonServiceAccountReadyCreated           = "ServiceAccountCreated"
+	ConditionReasonServiceAccountReadyFailed            = "ServiceAccountFailed"  // error during http call or exec
+	ConditionReasonServiceAccountReadyInvalidParameters = "InvalidParameters"     // spec validation failed
+	ConditionReasonServiceAccountReadyProducerNotFound  = "ProducerNotFound"      // optional producer not yet available
 )
 
 // LocalSecretRef definiert eine Referenz auf ein Secret im selben Namespace.
@@ -31,19 +27,6 @@ type LocalSecretRef struct {
 	// +kubebuilder:validation:MaxLength=253
 	// +kubebuilder:validation:Pattern=^[a-z0-9]([-a-z0-9]*[a-z0-9])?([.][a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
 	Name string `json:"name"`
-}
-
-// ServiceAccountRequestParams defines the param structure for the service account creation with unordered options as a mapping from map string to a slice from strings.
-// We do not use just string to string because some parameters maybe require multiple values of the same parameter/option (e.g. --repo x --repo y --permissions read).
-// Although some parameters are unnamed and positional, so we need the additional args field for this. It defines positional arguments without names.
-type ServiceAccountRequestParams struct {
-	// +kubebuilder:validation:MaxProperties=20
-	// +optional
-	Options map[string][]string `json:"options,omitempty"`
-
-	// +kubebuilder:validation:MaxItems=50
-	// +optional
-	Args []string `json:"args,omitempty"`
 }
 
 // ServiceAccountRotation defines a plan for recreating the service account credentials. If ServiceAccountRotation.Enabled is false, nothing will happen.
@@ -96,9 +79,16 @@ type ServiceAccountRequestSpec struct {
 	// +optional
 	SecretRef *LocalSecretRef `json:"secretRef,omitempty"`
 
-	// Params defines the parameter which should be used when creating the service account.
+	// Params defines a map of parameters provided (via service account operator) to the service account producer to 
+	// modify their service account creation behavior (if supported).
+	//
+	// The number and quality of parameters highly depend on the implementation of the service account producer. 
+	// 
+	// With maps being unsorted, the service account operator may provide a parameter sorting by a derived logic that is
+	// not being discussed here.
+	// +kubebuilder:validation:MaxProperties=20
 	// +optional
-	Params *ServiceAccountRequestParams `json:"params,omitempty"`
+	Params map[string]string `json:"params,omitempty"`
 
 	// Rotation defines timings when the service account should be recreated.
 	// +optional
