@@ -6,7 +6,7 @@ import (
 	fmt "fmt"
 	http "net/http"
 
-	apiv1 "github.com/cloudogu/k8s-serviceaccount-lib/client/typed/api/v1"
+	apiv2 "github.com/cloudogu/k8s-serviceaccount-lib/v2/client/typed/api/v2"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
@@ -14,18 +14,18 @@ import (
 
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
-	ApiV1() apiv1.ApiV1Interface
+	ApiV2() apiv2.ApiV2Interface
 }
 
 // Clientset contains the clients for groups.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	apiV1 *apiv1.ApiV1Client
+	apiV2 *apiv2.ApiV2Client
 }
 
-// ApiV1 retrieves the ApiV1Client
-func (c *Clientset) ApiV1() apiv1.ApiV1Interface {
-	return c.apiV1
+// ApiV2 retrieves the ApiV2Client
+func (c *Clientset) ApiV2() apiv2.ApiV2Interface {
+	return c.apiV2
 }
 
 // Discovery retrieves the DiscoveryClient
@@ -72,7 +72,7 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 
 	var cs Clientset
 	var err error
-	cs.apiV1, err = apiv1.NewForConfigAndClient(&configShallowCopy, httpClient)
+	cs.apiV2, err = apiv2.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +97,7 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 // New creates a new Clientset for the given RESTClient.
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
-	cs.apiV1 = apiv1.New(c)
+	cs.apiV2 = apiv2.New(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClient(c)
 	return &cs

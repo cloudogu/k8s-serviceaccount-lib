@@ -1,4 +1,4 @@
-package v1
+package v2
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -14,9 +14,9 @@ const (
 const (
 	ConditionTypeServiceAccountReady                    = "ServiceAccountReady"
 	ConditionReasonServiceAccountReadyCreated           = "ServiceAccountCreated"
-	ConditionReasonServiceAccountReadyFailed            = "ServiceAccountFailed"  // error during http call or exec
-	ConditionReasonServiceAccountReadyInvalidParameters = "InvalidParameters"     // spec validation failed
-	ConditionReasonServiceAccountReadyProducerNotFound  = "ProducerNotFound"      // optional producer not yet available
+	ConditionReasonServiceAccountReadyFailed            = "ServiceAccountFailed" // error during http call or exec
+	ConditionReasonServiceAccountReadyInvalidParameters = "InvalidParameters"    // spec validation failed
+	ConditionReasonServiceAccountReadyProducerNotFound  = "ProducerNotFound"     // optional producer not yet available
 )
 
 // LocalSecretRef definiert eine Referenz auf ein Secret im selben Namespace.
@@ -79,11 +79,11 @@ type ServiceAccountRequestSpec struct {
 	// +optional
 	SecretRef *LocalSecretRef `json:"secretRef,omitempty"`
 
-	// Params defines a map of parameters provided (via service account operator) to the service account producer to 
+	// Params defines a map of parameters provided (via service account operator) to the service account producer to
 	// modify their service account creation behavior (if supported).
 	//
-	// The number and quality of parameters highly depend on the implementation of the service account producer. 
-	// 
+	// The number and quality of parameters highly depend on the implementation of the service account producer.
+	//
 	// With maps being unsorted, the service account operator may provide a parameter sorting by a derived logic that is
 	// not being discussed here.
 	// +kubebuilder:validation:MaxProperties=20

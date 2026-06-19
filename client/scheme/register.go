@@ -3,7 +3,7 @@
 package scheme
 
 import (
-	apiv1 "github.com/cloudogu/k8s-serviceaccount-lib/api/v1"
+	apiv2 "github.com/cloudogu/k8s-serviceaccount-lib/v2/api/v2"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
@@ -15,7 +15,7 @@ var Scheme = runtime.NewScheme()
 var Codecs = serializer.NewCodecFactory(Scheme)
 var ParameterCodec = runtime.NewParameterCodec(Scheme)
 var localSchemeBuilder = runtime.SchemeBuilder{
-	apiv1.AddToScheme,
+	apiv2.AddToScheme,
 }
 
 // AddToScheme adds all types of this clientset into the given scheme. This allows composition

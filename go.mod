@@ -1,4 +1,4 @@
-module github.com/cloudogu/k8s-serviceaccount-lib
+module github.com/cloudogu/k8s-serviceaccount-lib/v2
 
 go 1.26.0
 
